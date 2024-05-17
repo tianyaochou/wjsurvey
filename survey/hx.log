@@ -1,0 +1,9 @@
+2024-05-11T20:08:00.169 helix_view::theme [WARN] Theme: malformed ANSI: bg3
+2024-05-11T20:08:04.407 helix_lsp::transport [ERROR] sqls err <- "2024/05/11 20:08:04 sqls: reading on stdin, writing on stdout\n"
+2024-05-11T20:08:04.407 helix_lsp::transport [ERROR] sqls err <- "2024/05/11 20:08:04 db worker: start\n"
+2024-05-11T20:08:04.408 helix_lsp::transport [ERROR] sqls err <- "2024/05/11 20:08:04 send err no database connection\n"
+2024-05-11T20:08:04.408 helix_lsp::transport [ERROR] sqls err <- "2024/05/11 20:08:04 Send Message: no database connection\n"
+2024-05-11T20:08:04.408 helix_term::application [WARN] unhandled window/showMessage: ShowMessageParams { typ: Error, message: "no database connection" }
+2024-05-11T20:08:04.448 helix_lsp::transport [ERROR] sqls err <- "2024/05/11 20:08:04 db worker: Update db cache primary complete\n"
+2024-05-11T20:08:04.468 helix_lsp::transport [ERROR] sqls err <- "2024/05/11 20:08:04 db worker: Update db cache secondary complete\n"
+2024-05-11T20:08:10.816 helix_lsp::transport [ERROR] sqls err <- "2024/05/11 20:08:10 db worker: done\n"
