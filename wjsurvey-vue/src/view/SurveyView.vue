@@ -2,7 +2,7 @@
 import SurveyComponent from '../components/SurveyComponent.vue'
 import { ref } from 'vue'
 
-const submited = ref(false)
+const submitted = ref(false)
 const submitting = ref(false)
 
 function handleSubmitting(answers) {
@@ -11,16 +11,23 @@ function handleSubmitting(answers) {
 
 function handleSubmitted() {
   submitting.value = false
-  submited.value = true
+  submitted.value = true
+}
+
+function handleFailure() {
+  console.log("handle failure")
+  submitting.value = false
+  submitted.value = false
 }
 </script>
 
 <template>
   <SurveyComponent
-    v-if="!(submitting || submited)"
+    v-if="!(submitting || submitted)"
+    @notSubmitted="handleFailure"
     @submitting="handleSubmitting"
     @submitted="handleSubmitted"
   />
   <p v-if="submitting">Submitting survey...</p>
-  <p v-if="submited">Thank you for your participation!</p>
+  <p v-if="submitted">Thank you for your participation!</p>
 </template>

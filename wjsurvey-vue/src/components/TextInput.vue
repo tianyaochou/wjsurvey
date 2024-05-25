@@ -2,8 +2,10 @@
 import { ref } from 'vue'
 
 const props = defineProps({
+  qKey: String,
   i: Object
 })
+const emit = defineEmits(['setValue'])
 
 const val = ref('')
 </script>
