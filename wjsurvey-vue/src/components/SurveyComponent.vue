@@ -34,23 +34,21 @@ function checkRequired() {
   return ok
 }
 
-function handleSubmit() {
+async function handleSubmit() {
   if (!checkRequired()) {
     // TODO: highlight required
     return
   }
   emit('submitting')
-  console.log("awaiting")
-  const response = fetch(route.path, {
+  const response = await fetch(route.path, {
     method: 'post',
     body: JSON.stringify(answers)
-  }).then((_) => {
-    console.log("SUCC")
-    emit('notSubmitted')
-    console.log("after emit")
-  }).catch((e) => {
-    console.log("FAIL")
   })
+  if (!response.ok) {
+    emit('notSubmitted')
+  } else {
+    emit('submitted')
+  }
 }
 </script>
 

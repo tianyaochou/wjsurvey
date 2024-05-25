@@ -7,10 +7,10 @@
     flake-parts.lib.mkFlake { inherit inputs; }
     {
       imports = [ inputs.devenv.flakeModule ];
-      systems = [ "x86_64-linux" ];
+      systems = [ "x86_64-linux" "x86_64-darwin" ];
       perSystem = { pkgs, ... }:{
         devenv.shells.default = {
-          packages = with pkgs; [ kotlin-language-server nodePackages.typescript-language-server sqls];
+          packages = with pkgs; [ kotlin-language-server nodePackages.typescript-language-server sqls nodePackages.vls];
           languages.kotlin = {
             enable = true;
           };

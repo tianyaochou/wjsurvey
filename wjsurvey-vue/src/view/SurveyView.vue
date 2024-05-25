@@ -15,19 +15,19 @@ function handleSubmitted() {
 }
 
 function handleFailure() {
-  console.log("handle failure")
   submitting.value = false
   submitted.value = false
 }
 </script>
 
 <template>
-  <SurveyComponent
-    v-if="!(submitting || submitted)"
-    @notSubmitted="handleFailure"
-    @submitting="handleSubmitting"
-    @submitted="handleSubmitted"
-  />
+  <div v-show="!(submitting || submitted)">
+    <SurveyComponent
+      @notSubmitted="handleFailure"
+      @submitting="handleSubmitting"
+      @submitted="handleSubmitted"
+    />
+  </div>
   <p v-if="submitting">Submitting survey...</p>
   <p v-if="submitted">Thank you for your participation!</p>
 </template>
