@@ -6,7 +6,8 @@ import { useRoute } from 'vue-router'
 const props = defineProps({
   s: Object
 })
-const emit = defineEmits(['submitting', 'submitted'])
+const emit = defineEmits(['submitting', 'submitted', 'notSubmitted'])
+const route = useRoute()
 
 const survey = JSON.parse(
   '{"name":"test","content":[{"type":"Text","content":"Example"},{"type":"Question","key":"name","question":"What is your name","required":true,"input":{"type":"TextInput","prompt":""}},{"type":"Question","key":"age","question":"How old are you?","required":false,"input":{"type":"SingleChoice","choices":[{"encoding":"1","description":"< 18"},{"encoding":"2","description":">= 18"}]}},{"type":"Question","key":"fruit","question":"What fruit do you like?","required":false,"input":{"type":"MultiChoice","choices":[{"encoding":"apple","description":"Apple"},{"encoding":"banana","description":"Banana"}]}}],"id":1}'
@@ -33,20 +34,24 @@ function checkRequired() {
   return ok
 }
 
-async function handleSubmit() {
+function handleSubmit() {
   if (!checkRequired()) {
     // TODO: highlight required
     return
   }
   emit('submitting')
-  await fetch(useRoute().path, {
+  console.log("awaiting")
+  const response = fetch(route.path, {
     method: 'post',
     body: JSON.stringify(answers)
-  }) // TODO: handle failure and timeout
-  emit('submitted')
+  }).then((_) => {
+    console.log("SUCC")
+    emit('notSubmitted')
+    console.log("after emit")
+  }).catch((e) => {
+    console.log("FAIL")
+  })
 }
-
-const id = useRoute().params.id
 </script>
 
 <template>
