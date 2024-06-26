@@ -8,6 +8,8 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
+import jakarta.persistence.SequenceGenerator
+import jakarta.persistence.GenerationType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -23,7 +25,7 @@ data class Survey(
         @Column var name: String = "",
         @Column @JdbcTypeCode(SqlTypes.JSON) var content: List<SurveyContent> = listOf(),
         @Transient @OneToMany(mappedBy = "survey") var responses: List<SurveyResponse> = listOf(),
-        @Id @GeneratedValue var id: Long? = null
+        @Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "survey_id_seq") @SequenceGenerator(name="survey_id_seq", sequenceName="survey_seq", allocationSize=1) var id: Long? = null
 ) {
     // Two questions should not have the same key
     fun validateQuestionKeys(): Boolean {
@@ -42,7 +44,13 @@ data class Survey(
     // Validate that answers in response appear in survey
     fun validateResponse(resp: SurveyResponse): Boolean {
         val questionKeys: Set<String> = this.content.filter({ it is Question }).map({ (it as Question).key }).toSet()
-        if (resp.responses.all({ it.key in questionKeys })) {
+        val requiredKeys: Set<String> = this.content.filter({ it is Question && it.required }).map({ (it as Question).key }).toSet()
+        if (resp.responses.all({ it.key in questionKeys })){
+            if (!requiredKeys.all({ it in resp.responses.map({ it.key }) })){
+                // Not all required questions are answered
+                return false
+            }
+
             return true
         } else {
             return false

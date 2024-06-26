@@ -46,7 +46,7 @@ class WjsurveyApplication(
         val survey = surveyRepo.findById(id).get()
         response.survey = survey
         if (survey.validateResponse(response)) {
-
+            responseRepo.save(response)
         } else {
             throw IllegalStateException("Invalid Response")
         }
